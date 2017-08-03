@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="LibraryModelStoreContainer" CdmEntityContainer="LibraryEntities">
+    <EntitySetMapping Name="Author">
+      <EntityTypeMapping TypeName="LibraryModel.Author">
+        <MappingFragment StoreEntitySet="Author">
+          <ScalarProperty Name="DeathDate" ColumnName="DeathDate" />
+          <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="Author_PK" ColumnName="Author_PK" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Book">
+      <EntityTypeMapping TypeName="LibraryModel.Book">
+        <MappingFragment StoreEntitySet="Book">
+          <ScalarProperty Name="Author_FK" ColumnName="Author_FK" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="PublishingYear" ColumnName="PublishingYear" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Book_PK" ColumnName="Book_PK" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Borrower">
+      <EntityTypeMapping TypeName="LibraryModel.Borrower">
+        <MappingFragment StoreEntitySet="Borrower">
+          <ScalarProperty Name="BorrowerRule_FK" ColumnName="BorrowerRule_FK" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="Borrower_PK" ColumnName="Borrower_PK" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BorrowerRule">
+      <EntityTypeMapping TypeName="LibraryModel.BorrowerRule">
+        <MappingFragment StoreEntitySet="BorrowerRule">
+          <ScalarProperty Name="Designation" ColumnName="Designation" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="BorrowerRule_PK" ColumnName="BorrowerRule_PK" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BorrowerRule_Book">
+      <EntityTypeMapping TypeName="LibraryModel.BorrowerRule_Book">
+        <MappingFragment StoreEntitySet="BorrowerRule_Book">
+          <ScalarProperty Name="Book_FK" ColumnName="Book_FK" />
+          <ScalarProperty Name="BorrowerRule_FK" ColumnName="BorrowerRule_FK" />
+          <ScalarProperty Name="BorrowerRule_Book_PK" ColumnName="BorrowerRule_Book_PK" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Employee">
+      <EntityTypeMapping TypeName="LibraryModel.Employee">
+        <MappingFragment StoreEntitySet="Employee">
+          <ScalarProperty Name="RecoveryEmail" ColumnName="RecoveryEmail" />
+          <ScalarProperty Name="IsActivated" ColumnName="IsActivated" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="EmployeeRule_FK" ColumnName="EmployeeRule_FK" />
+          <ScalarProperty Name="Employee_PK" ColumnName="Employee_PK" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EmployeeRule">
+      <EntityTypeMapping TypeName="LibraryModel.EmployeeRule">
+        <MappingFragment StoreEntitySet="EmployeeRule">
+          <ScalarProperty Name="Designation" ColumnName="Designation" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="EmployeeRule_PK" ColumnName="EmployeeRule_PK" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Loan">
+      <EntityTypeMapping TypeName="LibraryModel.Loan">
+        <MappingFragment StoreEntitySet="Loan">
+          <ScalarProperty Name="Membership_FK" ColumnName="Membership_FK" />
+          <ScalarProperty Name="Employee_FK" ColumnName="Employee_FK" />
+          <ScalarProperty Name="Book_FK" ColumnName="Book_FK" />
+          <ScalarProperty Name="EndLoanDate" ColumnName="EndLoanDate" />
+          <ScalarProperty Name="StartLoanDate" ColumnName="StartLoanDate" />
+          <ScalarProperty Name="Loan_PK" ColumnName="Loan_PK" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MEMBERSHIP">
+      <EntityTypeMapping TypeName="LibraryModel.MEMBERSHIP">
+        <MappingFragment StoreEntitySet="MEMBERSHIP">
+          <ScalarProperty Name="Borrower_FK" ColumnName="Borrower_FK" />
+          <ScalarProperty Name="MembershipNumber" ColumnName="MembershipNumber" />
+          <ScalarProperty Name="DeactivatedDate" ColumnName="DeactivatedDate" />
+          <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
+          <ScalarProperty Name="OpeningDate" ColumnName="OpeningDate" />
+          <ScalarProperty Name="Membership_PK" ColumnName="Membership_PK" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

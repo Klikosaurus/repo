@@ -1,0 +1,247 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LibraryModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Author">
+    <Key>
+      <PropertyRef Name="Author_PK" />
+    </Key>
+    <Property Name="Author_PK" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="LastName" Type="varchar" MaxLength="50" />
+    <Property Name="MiddleName" Type="varchar" MaxLength="50" />
+    <Property Name="Description" Type="varchar" MaxLength="255" />
+    <Property Name="BirthDate" Type="datetime2" Precision="7" />
+    <Property Name="DeathDate" Type="datetime2" Precision="7" />
+  </EntityType>
+  <EntityType Name="Book">
+    <Key>
+      <PropertyRef Name="Book_PK" />
+    </Key>
+    <Property Name="Book_PK" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="PublishingYear" Type="int" />
+    <Property Name="Description" Type="varchar" MaxLength="255" />
+    <Property Name="Author_FK" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Borrower">
+    <Key>
+      <PropertyRef Name="Borrower_PK" />
+    </Key>
+    <Property Name="Borrower_PK" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Address" Type="varchar" MaxLength="255" />
+    <Property Name="BorrowerRule_FK" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="BorrowerRule">
+    <Key>
+      <PropertyRef Name="BorrowerRule_PK" />
+    </Key>
+    <Property Name="BorrowerRule_PK" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="Designation" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="BorrowerRule_Book">
+    <Key>
+      <PropertyRef Name="BorrowerRule_Book_PK" />
+    </Key>
+    <Property Name="BorrowerRule_Book_PK" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BorrowerRule_FK" Type="int" Nullable="false" />
+    <Property Name="Book_FK" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="Employee_PK" />
+    </Key>
+    <Property Name="Employee_PK" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmployeeRule_FK" Type="int" Nullable="false" />
+    <Property Name="Username" Type="varchar" MaxLength="50" />
+    <Property Name="Password" Type="varchar" MaxLength="50" />
+    <Property Name="IsActivated" Type="bit" />
+    <Property Name="RecoveryEmail" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="EmployeeRule">
+    <Key>
+      <PropertyRef Name="EmployeeRule_PK" />
+    </Key>
+    <Property Name="EmployeeRule_PK" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="Designation" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Loan">
+    <Key>
+      <PropertyRef Name="Loan_PK" />
+    </Key>
+    <Property Name="Loan_PK" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StartLoanDate" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="EndLoanDate" Type="datetime2" Precision="7" />
+    <Property Name="Book_FK" Type="int" Nullable="false" />
+    <Property Name="Employee_FK" Type="int" Nullable="false" />
+    <Property Name="Membership_FK" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MEMBERSHIP">
+    <Key>
+      <PropertyRef Name="Membership_PK" />
+    </Key>
+    <Property Name="Membership_PK" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OpeningDate" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="ExpiryDate" Type="datetime2" Precision="7" />
+    <Property Name="DeactivatedDate" Type="datetime2" Precision="7" />
+    <Property Name="MembershipNumber" Type="varchar" MaxLength="50" />
+    <Property Name="Borrower_FK" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="Author_FK">
+    <End Role="Author" Type="Self.Author" Multiplicity="1" />
+    <End Role="Book" Type="Self.Book" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Author">
+        <PropertyRef Name="Author_PK" />
+      </Principal>
+      <Dependent Role="Book">
+        <PropertyRef Name="Author_FK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Book_FK">
+    <End Role="Book" Type="Self.Book" Multiplicity="1" />
+    <End Role="Loan" Type="Self.Loan" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Book">
+        <PropertyRef Name="Book_PK" />
+      </Principal>
+      <Dependent Role="Loan">
+        <PropertyRef Name="Book_FK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Book_FKv2">
+    <End Role="Book" Type="Self.Book" Multiplicity="1" />
+    <End Role="BorrowerRule_Book" Type="Self.BorrowerRule_Book" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Book">
+        <PropertyRef Name="Book_PK" />
+      </Principal>
+      <Dependent Role="BorrowerRule_Book">
+        <PropertyRef Name="Book_FK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Borrower_FK">
+    <End Role="Borrower" Type="Self.Borrower" Multiplicity="1" />
+    <End Role="MEMBERSHIP" Type="Self.MEMBERSHIP" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Borrower">
+        <PropertyRef Name="Borrower_PK" />
+      </Principal>
+      <Dependent Role="MEMBERSHIP">
+        <PropertyRef Name="Borrower_FK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="BorrowerRule_FK">
+    <End Role="BorrowerRule" Type="Self.BorrowerRule" Multiplicity="1" />
+    <End Role="Borrower" Type="Self.Borrower" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BorrowerRule">
+        <PropertyRef Name="BorrowerRule_PK" />
+      </Principal>
+      <Dependent Role="Borrower">
+        <PropertyRef Name="BorrowerRule_FK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="BorrowerRule_FKv2">
+    <End Role="BorrowerRule" Type="Self.BorrowerRule" Multiplicity="1" />
+    <End Role="BorrowerRule_Book" Type="Self.BorrowerRule_Book" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BorrowerRule">
+        <PropertyRef Name="BorrowerRule_PK" />
+      </Principal>
+      <Dependent Role="BorrowerRule_Book">
+        <PropertyRef Name="BorrowerRule_FK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Employee_FK">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+    <End Role="Loan" Type="Self.Loan" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="Employee_PK" />
+      </Principal>
+      <Dependent Role="Loan">
+        <PropertyRef Name="Employee_FK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="EmployeeRule_FK">
+    <End Role="EmployeeRule" Type="Self.EmployeeRule" Multiplicity="1" />
+    <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EmployeeRule">
+        <PropertyRef Name="EmployeeRule_PK" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="EmployeeRule_FK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Membership_FK">
+    <End Role="MEMBERSHIP" Type="Self.MEMBERSHIP" Multiplicity="1" />
+    <End Role="Loan" Type="Self.Loan" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MEMBERSHIP">
+        <PropertyRef Name="Membership_PK" />
+      </Principal>
+      <Dependent Role="Loan">
+        <PropertyRef Name="Membership_FK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="LibraryModelStoreContainer">
+    <EntitySet Name="Author" EntityType="Self.Author" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Book" EntityType="Self.Book" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Borrower" EntityType="Self.Borrower" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BorrowerRule" EntityType="Self.BorrowerRule" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BorrowerRule_Book" EntityType="Self.BorrowerRule_Book" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EmployeeRule" EntityType="Self.EmployeeRule" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Loan" EntityType="Self.Loan" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MEMBERSHIP" EntityType="Self.MEMBERSHIP" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="Author_FK" Association="Self.Author_FK">
+      <End Role="Author" EntitySet="Author" />
+      <End Role="Book" EntitySet="Book" />
+    </AssociationSet>
+    <AssociationSet Name="Book_FK" Association="Self.Book_FK">
+      <End Role="Book" EntitySet="Book" />
+      <End Role="Loan" EntitySet="Loan" />
+    </AssociationSet>
+    <AssociationSet Name="Book_FKv2" Association="Self.Book_FKv2">
+      <End Role="Book" EntitySet="Book" />
+      <End Role="BorrowerRule_Book" EntitySet="BorrowerRule_Book" />
+    </AssociationSet>
+    <AssociationSet Name="Borrower_FK" Association="Self.Borrower_FK">
+      <End Role="Borrower" EntitySet="Borrower" />
+      <End Role="MEMBERSHIP" EntitySet="MEMBERSHIP" />
+    </AssociationSet>
+    <AssociationSet Name="BorrowerRule_FK" Association="Self.BorrowerRule_FK">
+      <End Role="BorrowerRule" EntitySet="BorrowerRule" />
+      <End Role="Borrower" EntitySet="Borrower" />
+    </AssociationSet>
+    <AssociationSet Name="BorrowerRule_FKv2" Association="Self.BorrowerRule_FKv2">
+      <End Role="BorrowerRule" EntitySet="BorrowerRule" />
+      <End Role="BorrowerRule_Book" EntitySet="BorrowerRule_Book" />
+    </AssociationSet>
+    <AssociationSet Name="Employee_FK" Association="Self.Employee_FK">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="Loan" EntitySet="Loan" />
+    </AssociationSet>
+    <AssociationSet Name="EmployeeRule_FK" Association="Self.EmployeeRule_FK">
+      <End Role="EmployeeRule" EntitySet="EmployeeRule" />
+      <End Role="Employee" EntitySet="Employee" />
+    </AssociationSet>
+    <AssociationSet Name="Membership_FK" Association="Self.Membership_FK">
+      <End Role="MEMBERSHIP" EntitySet="MEMBERSHIP" />
+      <End Role="Loan" EntitySet="Loan" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

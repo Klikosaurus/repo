@@ -1,0 +1,112 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Library"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" x:Class="Library.MainWindow"
+        mc:Ignorable="d"
+        Title="Biblioteka" Height="833.787" Width="1279.102" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style TargetType="{x:Type Window}">
+            <Setter Property="FontFamily" Value="Tahoma" />
+            <Setter Property="FontSize" Value="16" />
+        </Style>
+        <Style TargetType="telerik:RadGridView">
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="AlternationCount" Value="2" />
+            <Setter Property="ShowGroupPanel" Value="False" />
+            <Setter Property="IsFilteringAllowed" Value="False" />
+            <Setter Property="RowIndicatorVisibility" Value="Collapsed" />
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="AutoGenerateColumns" Value="False" />
+            <Setter Property="FrozenColumnsSplitterVisibility" Value="Collapsed" />
+            <Setter Property="CanUserSortColumns" Value="False" />
+            <Setter Property="CanUserReorderColumns" Value="False" />
+            <Setter Property="CanUserResizeColumns" Value="False" />
+            <Setter Property="CanUserFreezeColumns" Value="False" />
+        </Style>
+        <local:LibraryDataSet x:Key="libraryDataSet"/>
+        <CollectionViewSource x:Key="borrowerRuleViewSource" Source="{Binding BorrowerRule, Source={StaticResource libraryDataSet}}"/>
+    </Window.Resources>
+    
+    <Grid >
+        <StackPanel FlowDirection="RightToLeft" Height="31" Orientation="Horizontal" Margin="10,10,10,10" VerticalAlignment="Top" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}">
+            <Button x:Name="btnLogOut" Content="Izloguj se"  VerticalAlignment="Center" Height="31" HorizontalAlignment="Right" Width="86" Background="{x:Null}">
+                <Button.Foreground>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveCaptionTextColorKey}}"/>
+                </Button.Foreground>
+            </Button>
+            <Label x:Name="lblUser" FlowDirection="LeftToRight" Content="---" MinWidth="100" HorizontalAlignment="Left"/>
+            <Label x:Name="lblUserReadOnly" FlowDirection="LeftToRight" Content="Korisnik: " FontWeight="Bold" HorizontalAlignment="Right"/>
+        </StackPanel>
+        
+        
+        <TabControl x:Name="tabControl" Margin="10,50,10,10">
+            <TabItem Header="Knjige" MinWidth="70">
+                <Grid Background="#FFE5E5E5" Margin="0,0,0,0" DataContext="{StaticResource borrowerRuleViewSource}">
+                    
+                    <DataGrid 
+                        x:Name="borrowerRuleDataGrid"
+                        Width="Auto"
+                        AutoGenerateColumns="False" 
+                        EnableRowVirtualization="True" 
+                        ItemsSource="{Binding}" Margin="29,31,816,561"
+                        RowDetailsVisibilityMode="VisibleWhenSelected"
+                        CanUserAddRows="False"
+                        CanUserReorderColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:Name="borrowerRule_PKColumn" Binding="{Binding BorrowerRule_PK}" Header="Borrower Rule PK" IsReadOnly="True" Width="Auto"/>
+                            <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Name}" Header="Name" IsReadOnly="True" Width="Auto"/>
+                            <DataGridTextColumn x:Name="designationColumn" Binding="{Binding Designation}" IsReadOnly="True" Header="Designation" Width="Auto"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    
+                    
+                    <Button x:Name="btnInsertBorrowerRuleAndRefresh" Content="Insert and load" HorizontalAlignment="Left" Margin="470,93,0,0" VerticalAlignment="Top" Width="124" Click="btnInsertBorrowerRuleAndRefresh_Click"/>
+                    <telerik:RadWatermarkTextBox x:Name="radWatermarkTextBoxName" WatermarkContent="Name" HorizontalAlignment="Left" Margin="470,33,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="237"/>
+                    <telerik:RadWatermarkTextBox x:Name="radWatermarkTextBoxDesignation"  WatermarkContent="Designation" HorizontalAlignment="Left" Margin="470,63,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="237"/>
+
+                    <DataGrid 
+                        x:Name="dataGridNew" 
+                        ItemsSource="{Binding BorrowerList}" 
+                        SelectedItem="{Binding Probni}"
+                        Width="381" 
+                        HorizontalAlignment="Left" 
+                        Margin="470,307,0,0" 
+                        VerticalAlignment="Top" 
+                        Height="181"
+                        AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:Name="nColumn" Binding="{Binding Name}" Header="Name" Width="SizeToHeader"/>
+                            <DataGridTextColumn x:Name="dColumn" Binding="{Binding Designation}" Header="Designation" Width="SizeToHeader"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    
+                    <Button x:Name="button" Content="Delete" HorizontalAlignment="Left" Margin="470,509,0,0" VerticalAlignment="Top" Width="158" Click="button_Click"/>
+                    <telerik:RadGridView 
+                        Name="klisa"
+                        HorizontalAlignment="Left" 
+                        Margin="29,243,0,0" 
+                        VerticalAlignment="Top"
+                        Height="289" 
+                        Width="365"
+                        AutoGenerateColumns="False"
+                        ItemsSource="{Binding BorrowerList}"
+                        SelectedItem="{Binding Probni}"
+                        ShowGroupPanel="False">
+                    <telerik:RadGridView.Columns>
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding Name}" Header="Naziv" />
+                        <telerik:GridViewDataColumn DataMemberBinding="{Binding Designation}" Header="Oznaka" />
+                    </telerik:RadGridView.Columns>
+                </telerik:RadGridView>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Članovi" MinWidth="70">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>
